@@ -1,0 +1,4 @@
+trainingMapsThermodynamics.C
+
+EXE = $(FOAM_USER_APPBIN)/trainingMapsThermodynamics
+
