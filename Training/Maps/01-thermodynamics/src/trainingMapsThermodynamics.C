@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
 	// Import map from preprocessed XML file
 	{
-		boost::filesystem::path file_path = "../../../kinetic-mechanisms/kinetics-POLIMI_H2CO_NOX_1412/kinetics.xml";
+		boost::filesystem::path file_path = "../../../../PreProcessing/POLIMI_H2_1412/kinetics-POLIMI_H2_1412/kinetics.xml";
 
 		// Open XML file containing the thermodynamic data
 		rapidxml::xml_document<> doc;
@@ -50,11 +50,10 @@ int main(int argc, char *argv[])
 
 	// Thermodynamic properties
 	{
-		// Mixture (molar basis): H2(5%), CO(5%), O2(20%), N2(70%)  
+		// Mixture (molar basis): H2(10%), O2(20%), N2(70%)  
 		Eigen::VectorXd x(thermoMap->NumberOfSpecies());
 		x.setZero();
-		x(thermoMap->IndexOfSpecies("H2")-1) = 0.05;
-		x(thermoMap->IndexOfSpecies("CO")-1) = 0.05;
+		x(thermoMap->IndexOfSpecies("H2")-1) = 0.10;
 		x(thermoMap->IndexOfSpecies("O2")-1) = 0.20;
 		x(thermoMap->IndexOfSpecies("N2")-1) = 0.70;
 
@@ -166,11 +165,10 @@ int main(int argc, char *argv[])
 	{
 		// STL vectors
 		{
-			// Mixture (molar basis): H2(5%), CO(5%), O2(20%), N2(70%)  
+			// Mixture (molar basis): H2(10%), O2(20%), N2(70%)  
 			std::vector<double> x(thermoMap->NumberOfSpecies());
 			std::fill(x.begin(), x.end(), 0.);
-			x[thermoMap->IndexOfSpecies("H2")-1] = 0.05;
-			x[thermoMap->IndexOfSpecies("CO")-1] = 0.05;
+			x[thermoMap->IndexOfSpecies("H2")-1] = 0.10;
 			x[thermoMap->IndexOfSpecies("O2")-1] = 0.20;
 			x[thermoMap->IndexOfSpecies("N2")-1] = 0.70;
 
@@ -192,11 +190,10 @@ int main(int argc, char *argv[])
 		// OpenSMOKE++ Vectors
 		// Warning: they start from 1 (FORTRAN style)
 		{
-			// Mixture (molar basis): H2(5%), CO(5%), O2(20%), N2(70%)  
+			// Mixture (molar basis): H2(10%), O2(20%), N2(70%)  
 			OpenSMOKE::OpenSMOKEVectorDouble x(thermoMap->NumberOfSpecies());
 			x = 0.;
-			x[thermoMap->IndexOfSpecies("H2")] = 0.05;
-			x[thermoMap->IndexOfSpecies("CO")] = 0.05;
+			x[thermoMap->IndexOfSpecies("H2")] = 0.10;
 			x[thermoMap->IndexOfSpecies("O2")] = 0.20;
 			x[thermoMap->IndexOfSpecies("N2")] = 0.70;
 
