@@ -1,0 +1,34 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.2;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      solverOptions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+Kinetics
+{
+	folder	   		"../../../../../../PreProcessing/POLIMI_H2_1412/kinetics-POLIMI_H2_1412";
+	inertSpecies 		N2;
+}
+
+Spark
+{
+	spark 		off;
+	position    	(5.95e-3  0.0 1.5e-3);
+	time		0.;
+	temperature 	2200;
+	duration 	25;
+	diameter 	1.5e-3;
+}
+
+// ************************************************************************* //
