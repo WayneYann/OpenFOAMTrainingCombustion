@@ -17,7 +17,7 @@
 
 	// Create dictionary and add the odeSolver name
 	dictionary dict;
-	dict.add("solver", args[1]);
+	dict.add("solver", odeSolver);
 
 	// Create the ODE system as object of type batchOdeSystem
 	batchAdiabaticOdeSystem batch(thermoMap, kineticsMap);

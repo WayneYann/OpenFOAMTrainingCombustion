@@ -29,8 +29,6 @@
 
 int main(int argc, char *argv[])
 {
-	argList::validArgs.append("ODESolver");
-
 	// OpenFOAM stuff
 	#include "setRootCase.H"
 	#include "createTime.H"
@@ -104,83 +102,6 @@ int main(int argc, char *argv[])
 
 	Info<< "End\n" << endl;
 
-	return 0;
-
-//	#include "createAdditionalFields.H"
-
-//	argList::validArgs.append("ODESolver");
-//	argList args(argc, argv);
-
-	// 
-/*
-
-	// Operating conditions
-	const double T = 1000.;
-	const double P = 101325.;
-	Eigen::VectorXd xStart(thermoMap.NumberOfSpecies());
-	xStart.setZero();
-	xStart(thermoMap.IndexOfSpecies("H2")-1)  = 0.11;
-	xStart(thermoMap.IndexOfSpecies("CO")-1)  = 0.11;
-	xStart(thermoMap.IndexOfSpecies("O2")-1)  = 0.17;
-	xStart(thermoMap.IndexOfSpecies("N2")-1)  = 0.61;
-
-	// Create the ODE system as object of type batchOdeSystem
-	batchOdeSystem batch(thermoMap, kineticsMap, T,P);
-
-	// Create dictionary and add the odeSolver name
-	dictionary dict;
-	dict.add("solver", args[1]);
-
-	// Create the selected ODE system solver
-	autoPtr<ODESolver> odeSolver = ODESolver::New(batch, dict);
-
-
-	// Initialize the ODE system fields (concentrations in kmol/m3)
-	const double cTot = P/(PhysicalConstants::R_J_kmol*T);
-	scalarField cStart(thermoMap.NumberOfSpecies());
-	for(unsigned int i=0;i<thermoMap.NumberOfSpecies();i++)
-		cStart[i] = cTot*xStart[i];
-
-	// ODE integration parameters
-	const label n = 1000;		// number of steps (used only for writing output)
-	scalar tStart = 0.;		// start time (in s)
-    	scalar tEnd = 1e-3; 		// end time (in s)
-	scalar dtStart = 1e-8;		// initial time step (in s)
-	scalar dt = (tEnd-tStart)/n;	// time step (in s)
-
-	// Required to store dcdt
-	scalarField dcStart(thermoMap.NumberOfSpecies());
-
-	// Output file
-	std::ofstream fOutput("Solution.out", std::ios::out);
-	fOutput.setf(std::ios::scientific);
-	fOutput.setf(std::ios::left);
-
-	fOutput << std::setw(16) << "time(1)";
- 	for(unsigned int i=0;i<thermoMap.NumberOfSpecies();i++)
-	{
-		std::string label = thermoMap.NamesOfSpecies()[i] + "(" + std::to_string(i+2) + ")";
-		fOutput << std::setw(16) << label;
-	}
-	fOutput << std::endl;
-
-	// Integration loop
-	for (label i=0; i<n; i++)
-	{
-		std::cout << std::scientific << tStart << std::endl;
-		
-		fOutput << std::setw(16) << tStart;
- 		for(unsigned int i=0;i<thermoMap.NumberOfSpecies();i++)
-			fOutput << std::setw(16) << cStart[i];
-		fOutput << std::endl;
-
-		batch.derivatives(tStart, cStart, dcStart);
-		odeSolver->solve(tStart, tStart + dt, cStart, dtStart);
-		tStart += dt;
-	}
-
-	fOutput.close();
-*/
 	return 0;
 }
 

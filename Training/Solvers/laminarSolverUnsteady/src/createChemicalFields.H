@@ -27,6 +27,9 @@ OpenSMOKE::TransportPropertiesMap_CHEMKIN	transportMap(doc);
 word inertSpecies(kineticsDictionary.lookup("inertSpecies"));
 label inertIndex = thermoMap.IndexOfSpecies(inertSpecies)-1;
 
+// ODE solver
+word odeSolver(kineticsDictionary.lookup("ODESolver"));
+
 // Detect spark
 const dictionary& sparkDictionary = solverOptions.subDict("Spark");
 sparkModel spark;

@@ -19,6 +19,7 @@ Kinetics
 {
 	folder	   		"../../../../../../PreProcessing/Global_H2_1step/kinetics-Global_H2_1step";
 	inertSpecies 		N2;
+	ODESolver		seulex;
 }
 
 Spark
@@ -26,7 +27,7 @@ Spark
 	spark 		on;
 	position    	(5.95e-3  0.0 1.5e-3);
 	time		0.;
-	temperature 	2205;
+	temperature 	2200;
 	duration 	0.025;
 	diameter 	1.5e-3;
 }
