@@ -52,7 +52,7 @@ solvers
         solver          smoothSolver;
         smoother        symGaussSeidel;
         tolerance       1e-09;
-        relTol          1e-06;
+        relTol          1e-07;
 	minIter		1;
     }
 }
@@ -75,15 +75,15 @@ relaxationFactors
 {
     fields
     {
-        p               0.30;
+        p               0.20;
         rho             0.05;
     }
     equations
     {
-	default         0.4;
+	default         0.3;
 
-        U               0.4;
-        T               0.4;
+        U               0.3;
+        T               0.3;
     }
 }
 
