@@ -4,6 +4,7 @@ RAPIDXML_LIBRARY_PATH=../../../../Libraries/rapidxml-1.13
 
 EXE_INC = \
     -w \
+    -I../../laminarSolverUnsteady/src \
     -I$(OPENSMOKEPP_LIBRARY_PATH) \
     -I$(BOOST4OPENSMOKEPP)/include \
     -I/usr/include/boost \
