@@ -53,8 +53,6 @@ int main(int argc, char *argv[])
 	#include "createFvOptions.H"
 	#include "initContinuityErrs.H"
 
-	dimensionedScalar initialMass = fvc::domainIntegrate(rho);
-
 	Info<< "\nStarting time loop\n" << endl;
 	while (simple.loop())
         {

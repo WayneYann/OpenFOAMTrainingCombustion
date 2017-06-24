@@ -17,13 +17,7 @@ volScalarField rho
 
 pressureControl pressureControl(p, rho, simple.dict());
 mesh.setFluxRequired(p.name());
-
-label pRefCell = 0;
-scalar pRefValue = 0.0;
-setRefCell(p, simple.dict(), pRefCell, pRefValue);
-
-dimensionedScalar rhoMax(simple.dict().lookup("rhoMax"));
-dimensionedScalar rhoMin(simple.dict().lookup("rhoMin"));
+dimensionedScalar initialMass = fvc::domainIntegrate(rho);
 
 // Kinetic energy
 Info<< "Creating field kinetic energy K\n" << endl;

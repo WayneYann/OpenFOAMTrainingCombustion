@@ -78,6 +78,9 @@
         }
     }
 
+
+    // The incompressibe form of the continuity error check is appropriate for
+    // steady-state compressible also.
     #include "continuityErrs.H"
 
     // Explicitly relax pressure for momentum corrector
@@ -94,22 +97,18 @@
     if (closedVolume)
     {
         p += (initialMass - fvc::domainIntegrate(psi*p))
-            /fvc::domainIntegrate(psi);
+            		/fvc::domainIntegrate(psi);
     }
 
     p.correctBoundaryConditions();
 
     rho = p*psi;
-    rho = max(rho, rhoMin);
-    rho = min(rho, rhoMax);
 
     if (!simple.transonic())
     {
         rho.relax();
     }
 
-    Info << "rho max/min : "
-         << max(rho).value() << " "
-         << min(rho).value() << endl;
+    Info << "rho max/min : " << max(rho).value() << " " << min(rho).value() << endl;
 }
 

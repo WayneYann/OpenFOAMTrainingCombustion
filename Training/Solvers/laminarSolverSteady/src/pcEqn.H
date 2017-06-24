@@ -112,14 +112,12 @@
 	p.correctBoundaryConditions();
 
 	// Recalculate density from the relaxed pressure
-    	rho = p*psi;
-    	rho = max(rho, rhoMin);
-    	rho = min(rho, rhoMax);
+	rho = p*psi;
 
 	if (!simple.transonic())
 	{
 	    rho.relax();
 	}
 
-	Info<< "rho max/min : " << max(rho).value() << " " << min(rho).value() << endl;
+	Info << "rho max/min : " << max(rho).value() << " " << min(rho).value() << endl;
 }
