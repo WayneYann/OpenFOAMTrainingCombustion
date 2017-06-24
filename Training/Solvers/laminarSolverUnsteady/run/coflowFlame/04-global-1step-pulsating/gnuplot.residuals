@@ -1,0 +1,18 @@
+#Uncomment the following 2 lines if you want save the plot as a png image
+#set term png font 'Helvetica,14'
+#set output "residuals.png"
+
+set logscale y
+set title "Residuals"
+set ylabel 'Residual'
+set xlabel 'Time steps'
+
+set yrange [1e-6:1]
+
+plot "< cat log | grep 'Solving for Ux,'  |  cut -d' ' -f9 | tr -d ','" title 'Ux'  with lines,\
+     "< cat log | grep 'Solving for Uz,'  |  cut -d' ' -f9 | tr -d ','" title 'Uz'  with lines,\
+     "< cat log | grep 'Solving for T,'   |  cut -d' ' -f9 | tr -d ','" title 'T'   with lines,\
+     "< cat log | grep 'Solving for H2,'  |  cut -d' ' -f9 | tr -d ','" title 'H2'  with lines,\
+     "< cat log | grep 'Solving for O2,'  |  cut -d' ' -f9 | tr -d ','" title 'O2'  with lines,\
+     "< cat log | grep 'Solving for H2O,' |  cut -d' ' -f9 | tr -d ','" title 'H2O' with lines
+
