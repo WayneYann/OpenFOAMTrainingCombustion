@@ -14,7 +14,7 @@
 |                                                                         |
 \*-----------------------------------------------------------------------*/
 
-#include "batchAdiabaticOdeSystem.H"
+#include "batchIsothermalOdeSystem.H"
 
 int main(int argc, char *argv[])
 {
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 	argList::validArgs.append("ODESolver");
 	argList args(argc, argv);
 
-	boost::filesystem::path file_path = "../../../../PreProcessing/POLIMI_H2CO_1412/kinetics-POLIMI_H2CO_1412/kinetics.xml";
+	boost::filesystem::path file_path = "../../../PreProcessing/POLIMI_H2CO_1412/kinetics-POLIMI_H2CO_1412/kinetics.xml";
 
 	// Open XML file containing the thermodynamic data
 	rapidxml::xml_document<> doc;
@@ -33,17 +33,17 @@ int main(int argc, char *argv[])
 	OpenSMOKE::KineticsMap_CHEMKIN kineticsMap(thermoMap, doc);  
 
 	// Operating conditions
-	double T = 1000.;
+	const double T = 1000.;
 	double P = 101325.;
-	Eigen::VectorXd moleFractions(thermoMap.NumberOfSpecies());
-	moleFractions.setZero();
-	moleFractions(thermoMap.IndexOfSpecies("H2")-1)  = 0.11;
-	moleFractions(thermoMap.IndexOfSpecies("CO")-1)  = 0.11;
-	moleFractions(thermoMap.IndexOfSpecies("O2")-1)  = 0.17;
-	moleFractions(thermoMap.IndexOfSpecies("N2")-1)  = 0.61;
+	Eigen::VectorXd xStart(thermoMap.NumberOfSpecies());
+	xStart.setZero();
+	xStart(thermoMap.IndexOfSpecies("H2")-1)  = 0.11;
+	xStart(thermoMap.IndexOfSpecies("CO")-1)  = 0.11;
+	xStart(thermoMap.IndexOfSpecies("O2")-1)  = 0.17;
+	xStart(thermoMap.IndexOfSpecies("N2")-1)  = 0.61;
 
 	// Create the ODE system as object of type batchOdeSystem
-	batchAdiabaticOdeSystem batch(thermoMap, kineticsMap);
+	batchIsothermalOdeSystem batch(thermoMap, kineticsMap, T);
 
 	// Create dictionary and add the odeSolver name
 	dictionary dict;
@@ -55,9 +55,9 @@ int main(int argc, char *argv[])
 
 	// Initialize the ODE system fields (concentrations in kmol/m3)
 	double cTot = P/(PhysicalConstants::R_J_kmol*T);
-	scalarField c(thermoMap.NumberOfSpecies());
+	scalarField cStart(thermoMap.NumberOfSpecies());
 	for(unsigned int i=0;i<thermoMap.NumberOfSpecies();i++)
-		c[i] = cTot*moleFractions(i);
+		cStart[i] = cTot*xStart[i];
 
 	// ODE integration parameters
 	const label n = 1000;		// number of steps (used only for writing output)
@@ -87,43 +87,22 @@ int main(int argc, char *argv[])
 	// Integration loop
 	for (label i=0; i<n; i++)
 	{
-		// Info
-		std::cout << std::setw(16) << std::scientific << tStart;
-		std::cout << std::setw(16) << std::scientific << T;
-		std::cout << std::setw(16) << std::scientific << P;
-		std::cout << std::endl;
+		if (i%10 == 0)	
+			std::cout << i << "\t" << std::scientific << tStart << std::endl;
 		
-		// Print on file
 		fOutput << std::setw(16) << tStart;
 		fOutput << std::setw(16) << T;
 		fOutput << std::setw(16) << P;
  		for(unsigned int i=0;i<thermoMap.NumberOfSpecies();i++)
-			fOutput << std::setw(16) << c[i];
+			fOutput << std::setw(16) << cStart[i];
 		fOutput << std::endl;
 
-		// From concentrations to mass fractions
-		cTot = std::accumulate(c.begin(), c.end(), 0.);
-		for(unsigned int i=0;i<thermoMap.NumberOfSpecies();i++)
-			moleFractions(i) = c[i]/cTot;
-
-		// Enthalpy
-		thermoMap.SetTemperature(T);
-		thermoMap.SetPressure(P);
-		const double H = thermoMap.hMolar_Mixture_From_MoleFractions(moleFractions.data());
-		batch.setEnthalpy(H);
-
-		// Solve ODE system
-		batch.setInitialTemperature(T);
-		batch.setInitialPressure(P);
-		batch.derivatives(tStart, c, dcStart);
-		odeSolver->solve(tStart, tStart + dt, c, dtStart);
+		batch.derivatives(tStart, cStart, dcStart);
+		odeSolver->solve(tStart, tStart + dt, cStart, dtStart);
 		tStart += dt;
 
-		// Temperature
-		cTot = std::accumulate(c.begin(), c.end(), 0.);
-		for(unsigned int i=0;i<thermoMap.NumberOfSpecies();i++)
-			moleFractions(i) = c[i]/cTot;
-		T = thermoMap.GetTemperatureFromEnthalpyAndMoleFractions(H, P, moleFractions.data(), T);
+		// Calculate pressure
+		const double cTot = std::accumulate(cStart.begin(), cStart.end(), 0.);
 		P = cTot*(PhysicalConstants::R_J_kmol*T);	
 	}
 
