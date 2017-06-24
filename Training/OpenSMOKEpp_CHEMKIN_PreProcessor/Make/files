@@ -1,4 +1,4 @@
-CHEMKIN_PreProcessor.C
+OpenSMOKEpp_CHEMKIN_PreProcessor.C
 
 EXE = $(FOAM_USER_APPBIN)/OpenSMOKEpp_CHEMKIN_PreProcessor
 

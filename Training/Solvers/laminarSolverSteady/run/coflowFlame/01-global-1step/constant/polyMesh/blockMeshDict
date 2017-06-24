@@ -72,11 +72,11 @@ vertices
    ($R2X 	$R2Ym    	$Lm)   // 20
 );
 
-Nfuel      8;
-Naxis     60;
-NaxisBack  8;
-Ncoflow   30;
-Nnozzle    2;
+Nfuel      4;
+Naxis     30;
+NaxisBack  5;
+Ncoflow   14;
+Nnozzle    1;
 
 Gaxis      25.;
 GaxisBack  0.25;

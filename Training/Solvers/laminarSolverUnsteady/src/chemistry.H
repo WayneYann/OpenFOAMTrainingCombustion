@@ -8,12 +8,6 @@
 	scalarField& TCells = T.ref();
 	scalarField& pCells = p.ref();
 
-//	scalarField& QCells = Q.ref();
-
-//	const scalarField& rhoCells = rho.internalField();
-//	const scalarField& cpCells = cp.internalField();
-//	const scalarField& vCells = mesh.V();
-
 	const unsigned int NC  = thermoMap.NumberOfSpecies();
 
 	Eigen::VectorXd massFractions(NC);
@@ -30,8 +24,7 @@
 
 	// Create the selected ODE system solver
 	autoPtr<ODESolver> odeSolver = ODESolver::New(batch, dict);
-
-				
+			
 	unsigned int counter = 0;
 			
 	double tStartCpu = OpenSMOKE::OpenSMOKEGetCpuTime();

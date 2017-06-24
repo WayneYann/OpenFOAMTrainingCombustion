@@ -26,7 +26,7 @@ Spark
 	spark 		off;
 	position    	(5.95e-3  0.0 1.5e-3);
 	time		0.;
-	temperature 	2205;
+	temperature 	2200;
 	duration 	0.025;
 	diameter 	1.5e-3;
 }

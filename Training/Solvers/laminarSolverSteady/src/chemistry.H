@@ -9,14 +9,14 @@
 		const scalarField& pCells = p.internalField(); 
 
 		Eigen::VectorXd J(NC+1);
-		OpenSMOKE::OpenSMOKEVectorDouble Source(NC+1);	
-		OpenSMOKE::OpenSMOKEVectorDouble y(NC+1);
+		Eigen::VectorXd Source(NC+1);	
+		Eigen::VectorXd y(NC+1);
 
 		forAll(TCells, celli)
 		{
 			for(int i=0;i<NC;i++)
-				y[i+1] = Y[i].internalField()[celli];
-			y[NC+1] = TCells[celli];
+				y(i) = Y[i].internalField()[celli];
+			y(NC) = TCells[celli];
 
 			chemistry.reactionSourceTerms(thermoMap, kineticsMap, y, pCells[celli], Source);
 			chemistry.reactionJacobian( thermoMap, kineticsMap, y, pCells[celli], J );
@@ -25,7 +25,7 @@
 				sourceImplicit[i].ref()[celli] = J(i);
 
 			for(int i=0;i<NC+1;i++)
-				sourceExplicit[i].ref()[celli] = Source[i+1] - J(i)*y[i+1];
+				sourceExplicit[i].ref()[celli] = Source(i) - J(i)*y(i);
 		}
 	}
 	double tEndCpu = OpenSMOKE::OpenSMOKEGetCpuTime();

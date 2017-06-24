@@ -60,9 +60,6 @@ int main(int argc, char *argv[])
         {
 		Info<< "Time = " << runTime.timeName() << nl << endl;
 
-		double t0 = runTime.value() - runTime.deltaT().value();
-		double tf = runTime.value();
-
 		// Pressure-velocity SIMPLE corrector
 		{
 			#include "UEqn.H"
