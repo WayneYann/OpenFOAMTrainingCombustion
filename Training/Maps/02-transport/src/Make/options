@@ -1,19 +1,18 @@
 OPENSMOKEPP_LIBRARY_PATH=../../../../Libraries/OpenSMOKEpp
 EIGEN_LIBRARY_PATH=../../../../Libraries/eigen-3.3.3
-BOOST_LIBRARY_PATH=../../../../Libraries/boost-1.64.0
 RAPIDXML_LIBRARY_PATH=../../../../Libraries/rapidxml-1.13
 
 EXE_INC = \
-    -w -Os \
+    -w \
     -I$(OPENSMOKEPP_LIBRARY_PATH) \
-    -I$(BOOST_LIBRARY_PATH)/include \
+    -I$(BOOST4OPENSMOKEPP)/include \
     -I/usr/include/boost \
     -I$(EIGEN_LIBRARY_PATH) \
     -I$(RAPIDXML_LIBRARY_PATH)
 
 EXE_LIBS = \
     -L$(FOAM_USER_LIBBIN) \
-    -L$(BOOST_LIBRARY_PATH)/lib \
+    -L$(BOOST4OPENSMOKEPP)/lib \
     -lboost_date_time \
     -lboost_filesystem \
     -lboost_system \
