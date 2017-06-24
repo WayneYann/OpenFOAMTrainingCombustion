@@ -1,6 +1,6 @@
-OPENSMOKEPP_LIBRARY_PATH=../../../../Libraries/OpenSMOKEpp
-EIGEN_LIBRARY_PATH=../../../../Libraries/eigen-3.3.3
-RAPIDXML_LIBRARY_PATH=../../../../Libraries/rapidxml-1.13
+OPENSMOKEPP_LIBRARY_PATH=../../../Libraries/OpenSMOKEpp
+EIGEN_LIBRARY_PATH=../../../Libraries/eigen-3.3.3
+RAPIDXML_LIBRARY_PATH=../../../Libraries/rapidxml-1.13
 
 EXE_INC = \
     -w \

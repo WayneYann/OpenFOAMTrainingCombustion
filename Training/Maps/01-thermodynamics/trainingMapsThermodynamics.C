@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
 	// Import map from preprocessed XML file
 	{
-		boost::filesystem::path file_path = "../../../../PreProcessing/POLIMI_H2_1412/kinetics-POLIMI_H2_1412/kinetics.xml";
+		boost::filesystem::path file_path = "../../../PreProcessing/POLIMI_H2_1412/kinetics-POLIMI_H2_1412/kinetics.xml";
 
 		// Open XML file containing the thermodynamic data
 		rapidxml::xml_document<> doc;
