@@ -19,6 +19,7 @@ Kinetics
 {
 	folder	   		"../../../../../../PreProcessing/POLIMI_H2_NOX_1412/kinetics-POLIMI_H2_NOX_1412";
 	inertSpecies 		N2;
+	ODESolver		seulex;
 }
 
 Spark
@@ -26,7 +27,7 @@ Spark
 	spark 		off;
 	position    	(5.95e-3  0.0 1.5e-3);
 	time		0.;
-	temperature 	2205;
+	temperature 	2200;
 	duration 	0.025;
 	diameter 	1.5e-3;
 }

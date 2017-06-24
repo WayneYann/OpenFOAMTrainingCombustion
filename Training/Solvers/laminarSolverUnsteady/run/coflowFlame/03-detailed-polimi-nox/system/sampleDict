@@ -19,7 +19,7 @@ interpolationScheme cellPointFace;
 
 setFormat       raw;
 
-fields          ( p T U H2 O2 H2O N2 NO NO2 N2O );
+fields          (p T U H2 O2 H2O N2 NO NO2 N2O);
 
 sets
 (
