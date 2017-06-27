@@ -24,6 +24,10 @@
 #include <boost/date_time.hpp>
 #include "boost/date_time/gregorian/gregorian.hpp"
 
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+#endif
+
 #if OPENSMOKE_USE_MKL == 1
 	#include <mkl.h>
 #elif OPENSMOKE_USE_OPENBLAS == 1
