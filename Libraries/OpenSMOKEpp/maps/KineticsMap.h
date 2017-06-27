@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------*\
+/*-----------------------------------------------------------------------*\
 |    ___                   ____  __  __  ___  _  _______                  |
 |   / _ \ _ __   ___ _ __ / ___||  \/  |/ _ \| |/ / ____| _     _         |
 |  | | | | '_ \ / _ \ '_ \\___ \| |\/| | | | | ' /|  _| _| |_ _| |_       |
@@ -16,7 +16,7 @@
 |                                                                         |
 |   This file is part of OpenSMOKE++ framework.                           |
 |                                                                         |
-|	License                                                               |
+|	License                                                           |
 |                                                                         |
 |   Copyright(C) 2014, 2013, 2012  Alberto Cuoci                          |
 |   OpenSMOKE++ is free software: you can redistribute it and/or modify   |
@@ -74,13 +74,13 @@ namespace OpenSMOKE
 		unsigned int number_of_reactions_;		//!< total number of reactions
 		unsigned int number_of_points_;			//!< number of points to be mapped (currently only 1)
 
-		double T_;								//!< temperature [K]
-		double uT_;								//!< reciprocal of temperature [1/K]
-		double logT_;							//!< log of temperature [temperature in K]
-		double P_;								//!< pressure [Pa]
+		double T_;					//!< temperature [K]
+		double uT_;					//!< reciprocal of temperature [1/K]
+		double logT_;					//!< log of temperature [temperature in K]
+		double P_;					//!< pressure [Pa]
 
-		double T_old_;							//!< temperature [K] (previous values)
-		double P_old_;							//!< pressure [Pa] (previous values)
+		double T_old_;					//!< temperature [K] (previous values)
+		double P_old_;					//!< pressure [Pa] (previous values)
 	};
 }
 

@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------*\
+/*-----------------------------------------------------------------------*\
 |    ___                   ____  __  __  ___  _  _______                  |
 |   / _ \ _ __   ___ _ __ / ___||  \/  |/ _ \| |/ / ____| _     _         |
 |  | | | | '_ \ / _ \ '_ \\___ \| |\/| | | | | ' /|  _| _| |_ _| |_       |
@@ -16,7 +16,7 @@
 |                                                                         |
 |   This file is part of OpenSMOKE++ framework.                           |
 |                                                                         |
-|	License                                                               |
+|	License                                                           |
 |                                                                         |
 |   Copyright(C) 2014, 2013, 2012  Alberto Cuoci                          |
 |   OpenSMOKE++ is free software: you can redistribute it and/or modify   |
@@ -73,11 +73,11 @@ namespace OpenSMOKE
 		*/
 		StoichiometricMap(const unsigned int nspecies, const unsigned int nreactions);
                 
-        /**
+        	/**
 		*@brief Constructor with verbose option
 		*@param nspecies number of species 
 		*@param nreactions number of reactions
-        *@param verbose show output
+        	*@param verbose show output
 		*/
 		StoichiometricMap(const unsigned int nspecies, const unsigned int nreactions, bool verbose);
 
@@ -147,23 +147,28 @@ namespace OpenSMOKE
 		void BuildReactionOrdersMatrix();
 
 		/**
-		*@brief Internal function (TODO)
+		*@brief Returns the stoichiometric matrix as a sparse matrix
 		*/
-		void CompleteChangeOfMoles(const bool* isThermodynamicReversible);
-
-		void RateOfProductionAnalysis(const double* r, const bool iNormalize);
-		void RateOfProductionAnalysis(const double* rf, const double* rb);
-
-
-		void WriteRateOfProductionAnalysis(std::ostream& fout);
-		void WriteRateOfProductionAnalysis(ROPA_Data& ropa);
-
 		const Eigen::SparseMatrix<double>& stoichiometric_matrix() const { return stoichiometric_matrix_; };
 
+		/**
+		*@brief Returns the stoichiometric matrix of reactant species only as a sparse matrix
+		*/
 		const Eigen::SparseMatrix<double>& stoichiometric_matrix_reactants() const { return stoichiometric_matrix_reactants_;};
+
+		/**
+		*@brief Returns the stoichiometric matrix of product species only as a sparse matrix
+		*/
 		const Eigen::SparseMatrix<double>& stoichiometric_matrix_products() const { return stoichiometric_matrix_products_; };
 		
+		/**
+		*@brief Returns the reaction order matrix of reactant species only as a sparse matrix
+		*/
 		const Eigen::SparseMatrix<double>& reactionorders_matrix_reactants() const { return reactionorders_matrix_reactants_; };
+
+		/**
+		*@brief Returns the reaction order matrix of product species only as a sparse matrix
+		*/
 		const Eigen::SparseMatrix<double>& reactionorders_matrix_products() const { return reactionorders_matrix_products_; };
 
 		/**
@@ -176,13 +181,25 @@ namespace OpenSMOKE
 		*/
 		void GetSumOfStoichiometricCoefficientsOfProducts(Eigen::VectorXd& sum_nu) const;
 
-		
+		/**
+		*@brief Internal function (TODO)
+		*/
+		void CompleteChangeOfMoles(const bool* isThermodynamicReversible);
+
+
+	public:	// Rate of Production Analysis (ROPA) utilities
+
+		void RateOfProductionAnalysis(const double* r, const bool iNormalize);
+		void RateOfProductionAnalysis(const double* rf, const double* rb);
+		void WriteRateOfProductionAnalysis(std::ostream& fout);
+		void WriteRateOfProductionAnalysis(ROPA_Data& ropa);
+
 	private:
 
 		unsigned int number_of_species_;
 		unsigned int number_of_reactions_;
                 
-        bool verbose_output_;
+        	bool verbose_output_;
 
 		std::vector<unsigned int>	numDir1_,	numDir2_,	numDir3_,	numDir4_,	numDir5_;
 		std::vector<unsigned int>	numRevTot1_, numRevTot2_,	numRevTot3_,	numRevTot4_, numRevTot5_;

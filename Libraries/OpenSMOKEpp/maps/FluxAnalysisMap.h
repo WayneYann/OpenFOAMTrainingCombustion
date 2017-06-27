@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------*\
+/*-----------------------------------------------------------------------*\
 |    ___                   ____  __  __  ___  _  _______                  |
 |   / _ \ _ __   ___ _ __ / ___||  \/  |/ _ \| |/ / ____| _     _         |
 |  | | | | '_ \ / _ \ '_ \\___ \| |\/| | | | | ' /|  _| _| |_ _| |_       |
@@ -16,7 +16,7 @@
 |                                                                         |
 |   This file is part of OpenSMOKE++ framework.                           |
 |                                                                         |
-|	License                                                               |
+|	License                                                           |
 |                                                                         |
 |   Copyright(C) 2014, 2013, 2012  Alberto Cuoci                          |
 |   OpenSMOKE++ is free software: you can redistribute it and/or modify   |
@@ -44,32 +44,15 @@ namespace OpenSMOKE
 {
 	//!  A class to perform flux analysis
 	/*!
-			A class to perform flux analysis
+		A class to perform flux analysis
 	*/
 
 	class FluxAnalysisMap
 	{
+
 	public:
 
-		FluxAnalysisMap(OpenSMOKE::ThermodynamicsMap_CHEMKIN& thermodynamicsMapXML, 
-					 OpenSMOKE::KineticsMap_CHEMKIN& kineticsMapXML) :
-		thermodynamicsMapXML_(thermodynamicsMapXML), kineticsMapXML_(kineticsMapXML)
-		{
-			NC = thermodynamicsMapXML_.NumberOfSpecies();
-			NR = kineticsMapXML_.NumberOfReactions();
-
-			max_width_ = 5;
-			max_depth_ = 3;
-			min_percentage_threshold_ = 0.01;
-			normal_thickness_ = false;
-			normal_tags_ = true;
-			destruction_analysis_ = true;
-			logarithmic_thickness_ = true;
-			global_important_indices_.resize(NC);
-			global_important_normal_fluxes_.resize(NC);
-			global_important_fluxes_.resize(NC);
-			global_relative_thickness_.resize(NC);
-		}
+		FluxAnalysisMap(OpenSMOKE::ThermodynamicsMap_CHEMKIN& thermodynamicsMapXML, OpenSMOKE::KineticsMap_CHEMKIN& kineticsMapXML);
 
 		void SetDestructionAnalysis(const bool flag) { destruction_analysis_ = flag; }
 

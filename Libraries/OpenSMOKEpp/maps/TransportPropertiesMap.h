@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------*\
+/*-----------------------------------------------------------------------*\
 |    ___                   ____  __  __  ___  _  _______                  |
 |   / _ \ _ __   ___ _ __ / ___||  \/  |/ _ \| |/ / ____| _     _         |
 |  | | | | '_ \ / _ \ '_ \\___ \| |\/| | | | | ' /|  _| _| |_ _| |_       |
@@ -16,7 +16,7 @@
 |                                                                         |
 |   This file is part of OpenSMOKE++ framework.                           |
 |                                                                         |
-|	License                                                               |
+|	License                                                           |
 |                                                                         |
 |   Copyright(C) 2014, 2013, 2012  Alberto Cuoci                          |
 |   OpenSMOKE++ is free software: you can redistribute it and/or modify   |
@@ -112,6 +112,9 @@ namespace OpenSMOKE
 		*/
 		bool is_species_bundling() const { return species_bundling_;  }
 
+
+	protected:
+
 		/**
 		*@brief TODO
 		*/
@@ -176,13 +179,13 @@ namespace OpenSMOKE
                 
         protected:
             
-        double T_;							//!< temperature [K]
-		double P_;							//!< pressure [Pa]
+        	double T_;			//!< temperature [K]
+		double P_;			//!< pressure [Pa]
 
-		double T_old_;						//!< temperature [K] (previous value)
-		double P_old_;						//!< pressure [Pa] (previous value)
+		double T_old_;			//!< temperature [K] (previous value)
+		double P_old_;			//!< pressure [Pa] (previous value)
 
-		bool species_bundling_;				//!< bundling of species for calculation of mass diffusion coefficients
+		bool species_bundling_;		//!< bundling of species for calculation of mass diffusion coefficients
 	};
 }
 

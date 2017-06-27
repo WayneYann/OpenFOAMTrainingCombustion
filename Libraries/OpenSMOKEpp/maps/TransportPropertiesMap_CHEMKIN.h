@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------*\
+/*-----------------------------------------------------------------------*\
 |    ___                   ____  __  __  ___  _  _______                  |
 |   / _ \ _ __   ___ _ __ / ___||  \/  |/ _ \| |/ / ____| _     _         |
 |  | | | | '_ \ / _ \ '_ \\___ \| |\/| | | | | ' /|  _| _| |_ _| |_       |
@@ -16,7 +16,7 @@
 |                                                                         |
 |   This file is part of OpenSMOKE++ framework.                           |
 |                                                                         |
-|	License                                                               |
+|	License                                                           |
 |                                                                         |
 |   Copyright(C) 2014, 2013, 2012  Alberto Cuoci                          |
 |   OpenSMOKE++ is free software: you can redistribute it and/or modify   |
@@ -66,18 +66,18 @@ namespace OpenSMOKE
 		*/
 		TransportPropertiesMap_CHEMKIN(rapidxml::xml_document<>& doc);
                 
-        /**
+        	/**
 		*@brief Copy constructor
 		*@param rhs the object to be copied in the current object
 		*/
-        TransportPropertiesMap_CHEMKIN( const TransportPropertiesMap_CHEMKIN& rhs );
+        	TransportPropertiesMap_CHEMKIN( const TransportPropertiesMap_CHEMKIN& rhs );
                 
-        /**
+        	/**
 		*@brief Default destructor
 		*/
 		~TransportPropertiesMap_CHEMKIN();
                 
-        /**
+        	/**
 		*@brief Set the temperature at which the properties have to be evaluated
 		*@param T the temperature value in K
 		*/
@@ -113,6 +113,8 @@ namespace OpenSMOKE
 		*@brief Import the species from a file in XML format
 		*/	
 		virtual void ImportSpeciesFromXMLFile(rapidxml::xml_document<>& doc);
+
+	protected:
 
 		/**
 		*@brief TODO (This is just a test subroutine!)
@@ -172,8 +174,6 @@ namespace OpenSMOKE
 		*/
 		inline virtual void bundling_gamma();
 		
-
-
 		/**
 		*@brief Calculates the thermal diffusion coefficients for all the species 
 		*/
@@ -196,18 +196,18 @@ namespace OpenSMOKE
 		*/
 		void CompleteInitialization();
                 
-        /**
+        	/**
 		*@brief Copies the data from another transport map (used by copy constructors)
 		*/
-        void CopyFromMap( const TransportPropertiesMap_CHEMKIN& rhs );
+       		void CopyFromMap( const TransportPropertiesMap_CHEMKIN& rhs );
                 
 	private:
 
 		PhysicalConstants::OpenSMOKE_GasMixture_Viscosity_Model viscosity_model;
 
-		double* M;						//!< molecular weights
+		double* M;				//!< molecular weights
 		double* fittingLambda;			//!< fitting coefficients for the thermal conductivities
-		double* fittingEta;				//!< fitting coefficients for the dynamic viscosities
+		double* fittingEta;			//!< fitting coefficients for the dynamic viscosities
 		double* fittingTeta;			//!< fitting coefficients for the thermal diffusion coefficients
 		double* fittingGamma;			//!< fitting coefficients for the mass diffusion coefficients
 
@@ -215,8 +215,8 @@ namespace OpenSMOKE
 		double* phi_eta_sup;			//!< auxiliary vector for the dynamic viscosity calculation
 		double* phi_eta_inf;			//!< auxiliary vector for the dynamic viscosity calculation
 
-		double* sqrtEta;				//!< auxiliary vector for the dynamic viscosity calculation
-		double* usqrtEta;				//!< auxiliary vector for the dynamic viscosity calculation
+		double* sqrtEta;			//!< auxiliary vector for the dynamic viscosity calculation
+		double* usqrtEta;			//!< auxiliary vector for the dynamic viscosity calculation
 		Eigen::VectorXd sumK;			//!< auxiliary vector for the dynamic viscosity calculation
 
 		double* sqrtMWRatio_inf;		//!< auxiliary vector for the dynamic viscosity calculation
@@ -224,20 +224,20 @@ namespace OpenSMOKE
 
 		double* sqrtMW;				//!< auxiliary vector for the dynamic viscosity calculation
 
-		double* sum_diffusion_coefficients;		//!< auxiliary vector used for the calculation of the mass diffusion coefficients
-		double* x_corrected;					//!< auxiliary vector used for the calculation of the mass diffusion coefficients
+		double* sum_diffusion_coefficients;	//!< auxiliary vector used for the calculation of the mass diffusion coefficients
+		double* x_corrected;			//!< auxiliary vector used for the calculation of the mass diffusion coefficients
 	
-        unsigned int count_species_thermal_diffusion_ratios_;   //!< number of species for which the thermal diffusion coefficients are evaluated 
+       	 	unsigned int count_species_thermal_diffusion_ratios_;   //!< number of species for which the thermal diffusion coefficients are evaluated 
 		std::vector<unsigned int> iThermalDiffusionRatios_;	//!< indices of species tracked for the thermal diffusion coefficients
 
 		static const double threshold_;
 		double sum_threshold_;
                 
-        bool temperature_lambda_must_be_recalculated_;
-        bool temperature_eta_must_be_recalculated_;
-        bool temperature_gamma_must_be_recalculated_;
-        bool temperature_teta_must_be_recalculated_;
-        bool pressure_gamma_must_be_recalculated_;
+        	bool temperature_lambda_must_be_recalculated_;
+        	bool temperature_eta_must_be_recalculated_;
+        	bool temperature_gamma_must_be_recalculated_;
+        	bool temperature_teta_must_be_recalculated_;
+        	bool pressure_gamma_must_be_recalculated_;
 
 		// Indices of relevant species (1-based)
 		unsigned int index_H2O_;
@@ -245,7 +245,7 @@ namespace OpenSMOKE
 		unsigned int index_CH4_;
 		unsigned int index_CO2_;
 
-		// TODO (bundling)
+		// Bundling
 		unsigned int bundling_number_groups_;
 		std::vector<unsigned int> bundling_reference_species_;
 		std::vector< std::vector<unsigned int> > bundling_groups_;

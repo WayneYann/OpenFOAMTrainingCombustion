@@ -16,7 +16,7 @@
 |                                                                         |
 |   This file is part of OpenSMOKE++ framework.                           |
 |                                                                         |
-|	License                                                               |
+|	License                                                           |
 |                                                                         |
 |   Copyright(C) 2014, 2013, 2012  Alberto Cuoci                          |
 |   OpenSMOKE++ is free software: you can redistribute it and/or modify   |
@@ -213,40 +213,64 @@ namespace OpenSMOKE
 		*/
 		unsigned int IndexOfElementWithoutError(const std::string name) const;
 
-
 		/**
 		*@brief Import elements from a file in XML format
 		*/
 		void ImportElementsFromXMLFile(rapidxml::xml_document<>& doc);
 
-		double GetMixtureFractionFromMassFractions(
-		const std::vector<double>& mass,
-		const std::vector<std::string>& fuel_names, 	const std::vector<double>& mass_fuel,
-		const std::vector<std::string>& oxidizer_names,	const std::vector<double>& mass_oxidizer);
+		/**
+		*@brief Calculates the mixture fraction for a given composition
+		*@param mass current mass fractions
+		*@param fuel_names names of species of fuel stream
+		*@param mass_fuel mass fractions of species in the fuel stream
+		*@param oxidizer_names names of species of oxidizer stream
+		*@param mass_oxidizer mass fractions of species of oxidizer stream
+		*@returns the mixture fraction
+		*/
+		double GetMixtureFractionFromMassFractions(	const std::vector<double>& mass,
+								const std::vector<std::string>& fuel_names, 	
+								const std::vector<double>& mass_fuel,
+								const std::vector<std::string>& oxidizer_names,	
+								const std::vector<double>& mass_oxidizer);
 
-		std::vector<double> GetMoleFractionsFromEquivalenceRatio( const double equivalence_ratio,
-						const std::vector<std::string>& fuel_names, const std::vector<double>& moles_fuel,
-						const std::vector<std::string>& oxidizer_names,	const std::vector<double>& moles_oxidizer );
-
-		double GetLocalEquivalenceRatio( 	const std::vector<double>& moles, const std::vector<double>& moles_st,
-							const std::vector<std::string>& fuel_names);
-
-		// Provisional
-		//virtual void Test(const int nLoops, const double& T, int* index) = 0;
+		/**
+		*@brief Calculates the composition (mole fractions) for a given equivalence ratio
+		*@param equivalence_ratio current equivalence ratio
+		*@param fuel_names names of species of fuel stream
+		*@param moles_fuel mole fractions of species in the fuel stream
+		*@param oxidizer_names names of species of oxidizer stream
+		*@param moles_oxidizer mole fractions of species of oxidizer stream
+		*@returns the calculated mole fractions
+		*/
+		std::vector<double> GetMoleFractionsFromEquivalenceRatio( 	const double equivalence_ratio,
+										const std::vector<std::string>& fuel_names, 
+										const std::vector<double>& moles_fuel,
+										const std::vector<std::string>& oxidizer_names,	
+										const std::vector<double>& moles_oxidizer );
+		/**
+		*@brief Calculates the equivalence ratio for a given composition
+		*@param moles current mole fractions
+		*@param moles_st mole fractions at stoichiometric conditions
+		*@param fuel_names names of species in the fuel stream
+		*@returns the equivalence ratio
+		*/
+		double GetLocalEquivalenceRatio( const std::vector<double>& moles, 
+						const std::vector<double>& moles_st,
+						const std::vector<std::string>& fuel_names );
 
 	protected:
 
-		unsigned int nspecies_;					//!< number of species
+		unsigned int nspecies_;			//!< number of species
 
-		std::vector<std::string> names_;		//!< names of the species
-		std::vector<double> MW__;				//!< molecular weights of the species
+		std::vector<std::string> names_;	//!< names of the species
+		std::vector<double> MW__;		//!< molecular weights of the species
 
-		double T_;								//!< temperature [K]
-		double P_;								//!< pressure [Pa]
+		double T_;				//!< temperature [K]
+		double P_;				//!< pressure [Pa]
 
 		Eigen::MatrixXd atomic_composition_;	//!< atomic composition
-		std::vector<std::string> elements_;		//!< names of elements
-		std::vector<double> mw_elements__;		//!< molecular weights of elements
+		std::vector<std::string> elements_;	//!< names of elements
+		std::vector<double> mw_elements__;	//!< molecular weights of elements
 	};
 }
 
