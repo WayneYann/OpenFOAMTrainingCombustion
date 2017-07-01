@@ -19,7 +19,7 @@ Kinetics
 {
 	folder	   		"../../../../../../PreProcessing/POLIMI_H2_NOX_1412/kinetics-POLIMI_H2_NOX_1412";
 	inertSpecies 		N2;
-	ODESolver		seulex;
+	ODESolver		SIBS;
 }
 
 Spark

@@ -1,3 +1,19 @@
+/*-----------------------------------------------------------------------*\
+|    ___                   ____  __  __  ___  _  _______                  |
+|   / _ \ _ __   ___ _ __ / ___||  \/  |/ _ \| |/ / ____| _     _         |
+|  | | | | '_ \ / _ \ '_ \\___ \| |\/| | | | | ' /|  _| _| |_ _| |_       |
+|  | |_| | |_) |  __/ | | |___) | |  | | |_| | . \| |__|_   _|_   _|      |
+|   \___/| .__/ \___|_| |_|____/|_|  |_|\___/|_|\_\_____||_|   |_|        |
+|        |_|                                                              |
+|                                                                         |
+|   Author: Alberto Cuoci <alberto.cuoci@polimi.it>                       |
+|   CRECK Modeling Group <http://creckmodeling.chem.polimi.it>            |
+|   Department of Chemistry, Materials and Chemical Engineering           |
+|   Politecnico di Milano                                                 |
+|   P.zza Leonardo da Vinci 32, 20133 Milano                              |
+|                                                                         |
+\*-----------------------------------------------------------------------*/
+
 {
 	Info <<" * Solving homogeneous chemistry (OpenSMOKE solver)... " <<endl;
 
@@ -41,10 +57,10 @@
 		for(unsigned int i=0;i<thermoMap.NumberOfSpecies();i++)
 			c[i] = cTot*moleFractions(i);
 
-		// Enthalpy
+		// Enthalpy [J/kg]
 		thermoMap.SetTemperature(TCells[celli]);
 		thermoMap.SetPressure(pCells[celli]);
-		const double H = thermoMap.hMolar_Mixture_From_MoleFractions(moleFractions.data());
+		const double H = thermoMap.hMolar_Mixture_From_MoleFractions(moleFractions.data())/mw;
 		batch.setEnthalpy(H);
 
 		// Solve ODE system
@@ -62,7 +78,7 @@
 			Y[i].ref()[celli] = massFractions(i);
 
 		// Temperature
-		TCells[celli] = thermoMap.GetTemperatureFromEnthalpyAndMoleFractions(H, pCells[celli], moleFractions.data(), TCells[celli]);
+		TCells[celli] = thermoMap.GetTemperatureFromEnthalpyAndMoleFractions(H*mw, pCells[celli], moleFractions.data(), TCells[celli]);
 
 		// Counter
 		if (counter%(int(0.20*mesh.nCells())+1) == 0)

@@ -19,7 +19,7 @@ Kinetics
 {
 	folder	   		"../../../../../../PreProcessing/Global_H2_1step/kinetics-Global_H2_1step";
 	inertSpecies 		N2;
-	ODESolver		seulex;
+	ODESolver		SIBS;
 }
 
 Spark
