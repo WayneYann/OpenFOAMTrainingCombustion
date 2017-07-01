@@ -59,6 +59,13 @@ int main(int argc, char *argv[])
 	for(unsigned int i=0;i<thermoMap.NumberOfSpecies();i++)
 		c[i] = cTot*moleFractions(i);
 
+	// Enthalpy
+	thermoMap.SetTemperature(T);
+	thermoMap.SetPressure(P);
+	const double mw = thermoMap.MolecularWeight_From_MoleFractions(moleFractions.data());
+	const double U = thermoMap.uMolar_Mixture_From_MoleFractions(moleFractions.data()) / mw;
+	batch.setInternalEnergy(U);
+
 	// ODE integration parameters
 	const label n = 1000;		// number of steps (used only for writing output)
 	scalar tStart = 0.;		// start time (in s)
@@ -105,17 +112,6 @@ int main(int argc, char *argv[])
 			fOutput << std::setw(16) << c[i];
 		fOutput << std::endl;
 
-		// From concentrations to mass fractions
-		cTot = std::accumulate(c.begin(), c.end(), 0.);
-		for(unsigned int i=0;i<thermoMap.NumberOfSpecies();i++)
-			moleFractions(i) = c[i]/cTot;
-
-		// Enthalpy
-		thermoMap.SetTemperature(T);
-		thermoMap.SetPressure(P);
-		const double H = thermoMap.hMolar_Mixture_From_MoleFractions(moleFractions.data());
-		batch.setEnthalpy(H);
-
 		// Solve ODE system
 		batch.setInitialTemperature(T);
 		batch.setInitialPressure(P);
@@ -127,7 +123,9 @@ int main(int argc, char *argv[])
 		cTot = std::accumulate(c.begin(), c.end(), 0.);
 		for(unsigned int i=0;i<thermoMap.NumberOfSpecies();i++)
 			moleFractions(i) = c[i]/cTot;
-		T = thermoMap.GetTemperatureFromEnthalpyAndMoleFractions(H, P, moleFractions.data(), T);
+		const double mw = thermoMap.MolecularWeight_From_MoleFractions(moleFractions.data());
+		const double H = U+P/(cTot*mw);
+		T = thermoMap.GetTemperatureFromEnthalpyAndMoleFractions(H*mw, P, moleFractions.data(), T);
 		P = cTot*(PhysicalConstants::R_J_kmol*T);	
 	}
 

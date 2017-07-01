@@ -31,7 +31,7 @@ public:
 
 	void setInitialTemperature(const double TInitial);
 	void setInitialPressure(const double PInitial);
-	void setEnthalpy(const double H);
+	void setInternalEnergy(const double U);
 
 	label nEqns() const;
 
@@ -44,16 +44,20 @@ private:
 	OpenSMOKE::ThermodynamicsMap_CHEMKIN& 	thermoMap_;
 	OpenSMOKE::KineticsMap_CHEMKIN&		kineticsMap_;
 	
-	double TInitial_;
-	double PInitial_;
-	double H_;
+	double TInitial_;	// initial temperature (in K)
+	double PInitial_;	// initial pressure (in Pa)
+	double U_;		// mass internal energy, constant (in J/kg)
+
+	int maxIterations_;	// max number iterations for estimating the pressure
 };
 
 batchAdiabaticOdeSystem::batchAdiabaticOdeSystem(OpenSMOKE::ThermodynamicsMap_CHEMKIN& thermoMap, OpenSMOKE::KineticsMap_CHEMKIN& kineticsMap) : 
 	ODESystem(),
 	thermoMap_(thermoMap),
 	kineticsMap_(kineticsMap)
-{}
+{
+	maxIterations_ = 10;
+}
 
 void batchAdiabaticOdeSystem::setInitialTemperature(const double TInitial)
 {
@@ -65,9 +69,9 @@ void batchAdiabaticOdeSystem::setInitialPressure(const double PInitial)
 	PInitial_ = PInitial;
 }
 
-void batchAdiabaticOdeSystem::setEnthalpy(const double H)
+void batchAdiabaticOdeSystem::setInternalEnergy(const double U)
 {
-	H_ = H;
+	U_ = U;
 }
 
 label batchAdiabaticOdeSystem::nEqns() const
@@ -75,15 +79,29 @@ label batchAdiabaticOdeSystem::nEqns() const
 	return thermoMap_.NumberOfSpecies();
 }
 
-void batchAdiabaticOdeSystem::derivatives( const scalar t, const scalarField& c, scalarField& dcdt ) const
+void batchAdiabaticOdeSystem::derivatives( const scalar t, const scalarField& cc, scalarField& dcdt ) const
 {
-	// Calculate temperature from enthalpy
+	// Reconstruct concentrations and mole fractions
+	Eigen::VectorXd c(thermoMap_.NumberOfSpecies());
+	for (unsigned int i=0;i<thermoMap_.NumberOfSpecies();i++)
+		c(i) = std::max(cc[i],0.);
 	Eigen::VectorXd x(thermoMap_.NumberOfSpecies());
-	const double cTot = std::accumulate(c.begin(), c.end(), 0.);
+	const double cTot = c.sum();
 	for (unsigned int i=0;i<thermoMap_.NumberOfSpecies();i++)
 		x(i) = c[i]/cTot;
-	const double T = thermoMap_.GetTemperatureFromEnthalpyAndMoleFractions(H_, PInitial_, x.data(), TInitial_);
-	const double P = cTot*(PhysicalConstants::R_J_kmol*T);	
+	const double mw = thermoMap_.MolecularWeight_From_MoleFractions(x.data());
+	
+	// Calculate temperature and pressure (by successive substitutions)
+	double P = PInitial_;
+	double T = TInitial_;
+	for(int i=0;i<maxIterations_;i++)
+	{	
+		const double Pold = P;	
+		const double H = U_+P/(cTot*mw);
+		T = thermoMap_.GetTemperatureFromEnthalpyAndMoleFractions(H*mw, P, x.data(), T);
+		P = cTot*(PhysicalConstants::R_J_kmol*T);
+		if (std::fabs(P-Pold)/P<1e-4)	break;	
+	}
 
 	// Calculates thermodynamic properties
 	thermoMap_.SetTemperature(T);
@@ -93,7 +111,7 @@ void batchAdiabaticOdeSystem::derivatives( const scalar t, const scalarField& c,
 	Eigen::VectorXd R(thermoMap_.NumberOfSpecies());
 	kineticsMap_.SetTemperature(T);
 	kineticsMap_.SetPressure(P);
-	kineticsMap_.ReactionRates(c.cdata());
+	kineticsMap_.ReactionRates(c.data());
 	kineticsMap_.FormationRates(R.data());
 	
 	// Species equations
@@ -101,15 +119,29 @@ void batchAdiabaticOdeSystem::derivatives( const scalar t, const scalarField& c,
 		dcdt[i] = R(i);
 }
 
-void batchAdiabaticOdeSystem::jacobian( const scalar t, const scalarField& c, scalarField& dfdt, scalarSquareMatrix& dfdc ) const
+void batchAdiabaticOdeSystem::jacobian( const scalar t, const scalarField& cc, scalarField& dfdt, scalarSquareMatrix& dfdc ) const
 {
-	// Calculate temperature from enthalpy
+	// Reconstruct concentrations and mole fractions
+	Eigen::VectorXd c(thermoMap_.NumberOfSpecies());	// concentrations of species (in kmol/m3)
+	for (unsigned int i=0;i<thermoMap_.NumberOfSpecies();i++)
+		c(i) = std::max(cc[i],0.);
 	Eigen::VectorXd x(thermoMap_.NumberOfSpecies());
-	const double cTot = std::accumulate(c.begin(), c.end(), 0.);
+	const double cTot = c.sum();
 	for (unsigned int i=0;i<thermoMap_.NumberOfSpecies();i++)
 		x(i) = c[i]/cTot;
-	const double T = thermoMap_.GetTemperatureFromEnthalpyAndMoleFractions(H_, PInitial_, x.data(), TInitial_);
-	const double P = cTot*(PhysicalConstants::R_J_kmol*T);	
+	const double mw = thermoMap_.MolecularWeight_From_MoleFractions(x.data());
+
+	// Calculate temperature and pressure (by successive substitutions)
+	double P = PInitial_;
+	double T = TInitial_;
+	for(int i=0;i<maxIterations_;i++)
+	{	
+		const double Pold = P;	
+		const double H = U_+P/(cTot*mw);
+		T = thermoMap_.GetTemperatureFromEnthalpyAndMoleFractions(H*mw, P, x.data(), T);
+		P = cTot*(PhysicalConstants::R_J_kmol*T);
+		if (std::fabs(P-Pold)/P<1e-4)	break;	
+	}
 
 	// Set maps
 	thermoMap_.SetTemperature(T);
@@ -119,7 +151,7 @@ void batchAdiabaticOdeSystem::jacobian( const scalar t, const scalarField& c, sc
 
 	// Derivative of formation rates with respect to concentrations (in 1/s)
 	Eigen::MatrixXd dR_over_dC(thermoMap_.NumberOfSpecies(), thermoMap_.NumberOfSpecies());
-	kineticsMap_.DerivativesOfFormationRates(c.cdata(), &dR_over_dC);
+	kineticsMap_.DerivativesOfFormationRates(c.data(), &dR_over_dC);
 
 	for (unsigned int i=0;i<thermoMap_.NumberOfSpecies();i++)
 		dfdt[i] = 0.;	
