@@ -163,6 +163,9 @@ int main(int argc, char *argv[])
 
 	// Using different types of vectors
 	{
+		std::cout << std::endl;
+		std::cout << "Testing different types of vectors" << std::endl;
+
 		// STL vectors
 		{
 			// Mixture (molar basis): H2(10%), O2(20%), N2(70%)  
@@ -184,7 +187,7 @@ int main(int argc, char *argv[])
 			const double mw = thermoMap->MolecularWeight_From_MoleFractions(x.data());
 
 			// Print
-			std::cout << "MW from STL vector: " << mw << std::endl;
+			std::cout << " * MW from STL vector: " << mw << std::endl;
 		}
 
 		// OpenSMOKE++ Vectors
@@ -209,7 +212,7 @@ int main(int argc, char *argv[])
 			const double mw = thermoMap->MolecularWeight_From_MoleFractions(x.GetHandle());
 
 			// Print
-			std::cout << "MW from OpenSMOKE++ vector: " << mw << std::endl;
+			std::cout << " * MW from OpenSMOKE++ vector: " << mw << std::endl;
 		}
 	}
 }

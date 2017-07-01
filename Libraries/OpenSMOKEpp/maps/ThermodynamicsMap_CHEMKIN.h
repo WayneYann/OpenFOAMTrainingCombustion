@@ -119,11 +119,17 @@ namespace OpenSMOKE
 
 		/**
 		*@brief Calculates the mass fractions and the molecular weight from the mole fractions
+		*@param y mass fractions of species
+		*@param MW the molecular weight in kg/kmol
+		*@param x mole fractions of species
 		*/
 		virtual inline void MassFractions_From_MoleFractions(double* y, double& MW, const double* x);
 
 		/**
 		*@brief Calculates the mole fractions and the molecular weight from the mass fractions
+		*@param x mole fractions of species
+		*@param MW the molecular weight in kg/kmol
+		*@param y mass fractions of species
 		*/
 		virtual inline void MoleFractions_From_MassFractions(double* x, double& MW, const double* y);
 
