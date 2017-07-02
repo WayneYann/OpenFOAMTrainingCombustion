@@ -1,0 +1,128 @@
+/*---------------------------------------------------------------------------*\               
+| =========                 |                                                 |                
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |                
+|  \\    /   O peration     | Version:  1.0                                   |                
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |                
+|    \\/     M anipulation  |                                                 |                
+\*---------------------------------------------------------------------------*/                
+                                        
+FoamFile                                
+{                                       
+    version         2.0;                
+    format          ascii;              
+                                        
+    root            "";               
+    case            "";               
+    instance        "";               
+    local           "";               
+                                        
+    class           dictionary;         
+    object          blockMeshDict;      
+}          
+
+
+convertToMeters 0.001;
+
+L1    40;
+L2   240;
+H     10;
+                   
+vertices                                
+(                                       
+   (0. 		-0.1  		0. )   // 0
+   ($L1	 	-0.1      	0. )   // 1
+   ($L1 	 0.1  		0. )   // 2
+   (0.	 	 0.1      	0. )   // 3
+
+   (0. 		-0.1  		$H )   // 4
+   ($L1	 	-0.1      	$H )   // 5
+   ($L1 	 0.1  		$H )   // 6
+   (0.	 	 0.1      	$H )   // 7
+
+   ($L2	 	-0.1      	0. )   // 8
+   ($L2	 	 0.1      	0. )   // 9
+   ($L2	 	-0.1      	$H )   // 10
+   ($L2	 	 0.1      	$H )   // 11
+
+);
+
+Naxis1    4;
+Naxis2   20;
+Nradial   5;
+
+blocks
+( 	
+	hex (0 1 2 3 4 5 6 7)           ($Naxis1  1 $Nradial )  simpleGrading   (1. 1. 1.)
+        hex (1 8 9 2 5 10 11 6)         ($Naxis2  1 $Nradial )  simpleGrading   (1. 1. 1.)
+);   
+
+boundary               
+(
+        inlet          
+        {
+            type patch;    
+            faces
+            (
+                (4 7 3 0)
+            );
+        }           
+	adiabaticWall        
+        {
+            type wall;    
+            faces
+            (
+                (7 4 5 6)
+            );
+        }  
+	wall        
+        {
+            type wall;    
+            faces
+            (
+                (6 5 10 11)
+            );
+        }  
+	axis        
+        {
+            type symmetryPlane;    
+            faces
+            (
+               	(3 2 1 0)
+		(2 9 8 1)
+            );
+        } 
+	frontAndBack          
+        {
+            type empty;    
+            faces
+            (
+                (5 4 0 1)
+        	(2 3 7 6)
+		(10 5 1 8)
+		(9 2 6 11)
+            );
+        }  
+	outlet          
+        {
+            type patch;    
+            faces
+            (
+		(11 10 8 9)
+            );
+        }                      
+);                                   
+                                     
+mergePatchPairs                      
+(                                    
+);                                   
+                                                                  
+                      
+
+                             
+          
+	
+
+        
+                           
+                                        
+
