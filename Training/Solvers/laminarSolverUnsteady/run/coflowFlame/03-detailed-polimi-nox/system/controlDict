@@ -23,7 +23,7 @@ startTime         0;
 
 stopAt            endTime;
 
-endTime           0.50;
+endTime           1.00;
 
 deltaT            1e-8;
 
@@ -47,7 +47,7 @@ runTimeModifiable yes;
 
 adjustTimeStep    yes;
 
-maxCo             0.1;
+maxCo             0.05;
 
 // ************************************************************************* //
 

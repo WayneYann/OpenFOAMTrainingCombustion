@@ -2,6 +2,10 @@ cd Global_H2_1step
 OpenSMOKEpp_CHEMKIN_PreProcessor
 cd ..
 
+cd Global_CH4_1step
+OpenSMOKEpp_CHEMKIN_PreProcessor
+cd ..
+
 cd GRI30
 OpenSMOKEpp_CHEMKIN_PreProcessor
 cd ..
