@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  dev                                   |
+|  \\    /   O peration     | Version:  2.3.0                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -15,39 +15,37 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     laminarSolverUnsteady;
+application        laminarSolverSteady;
 
-startFrom       latestTime;
+startFrom          latestTime;
 
-startTime       0;
+startTime          0;
 
-stopAt          endTime;
+stopAt             endTime;
 
-endTime         0.2;
+endTime            2000;
 
-deltaT          1e-6;
+deltaT             1;
 
-writeControl    adjustableRunTime;
+writeControl       timeStep;
 
-writeInterval   0.01;
+writeInterval      200;
 
-purgeWrite      0;
+purgeWrite         0;
 
-writeFormat     ascii;
+writeFormat        ascii;
 
-writePrecision  6;
+writePrecision     9;
 
-writeCompression off;
+writeCompression   off;
 
-timeFormat      general;
+timeFormat         general;
 
-timePrecision   6;
+timePrecision      6;
 
-runTimeModifiable true;
+graphFormat        raw;
 
-adjustTimeStep  yes;
-
-maxCo           0.2;
-
+runTimeModifiable  true;
 
 // ************************************************************************* //
+

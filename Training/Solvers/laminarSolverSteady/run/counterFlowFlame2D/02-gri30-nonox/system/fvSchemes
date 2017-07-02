@@ -11,43 +11,45 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "system";
-    object      controlDict;
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     laminarSolverUnsteady;
+ddtSchemes
+{
+    default         Euler;
+}
 
-startFrom       latestTime;
+gradSchemes
+{
+    default         Gauss linear;
+}
 
-startTime       0;
+divSchemes
+{
+    default         none;
 
-stopAt          endTime;
+    div(phi,U)      			Gauss limitedLinearV 1;
+    div(phi,Yi)   			Gauss limitedLinear 1;
+    div(phi,T)      			Gauss limitedLinear 1;
+    div(phid,p)     			Gauss limitedLinear 1;
+    div((gas_eta*dev2(grad(U).T()))) 	Gauss linear;
+}
 
-endTime         0.2;
+laplacianSchemes
+{
+    default         Gauss linear orthogonal;
+}
 
-deltaT          1e-6;
+interpolationSchemes
+{
+    default         linear;
+}
 
-writeControl    adjustableRunTime;
-
-writeInterval   0.01;
-
-purgeWrite      0;
-
-writeFormat     ascii;
-
-writePrecision  6;
-
-writeCompression off;
-
-timeFormat      general;
-
-timePrecision   6;
-
-runTimeModifiable true;
-
-adjustTimeStep  yes;
-
-maxCo           0.2;
+snGradSchemes
+{
+    default         orthogonal;
+}
 
 
 // ************************************************************************* //

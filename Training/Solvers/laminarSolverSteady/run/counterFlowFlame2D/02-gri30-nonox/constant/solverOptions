@@ -1,53 +1,35 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  dev                                   |
+|  \\    /   O peration     | Version:  2.2.0                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-    version     2.0;
+    version     2.2;
     format      ascii;
     class       dictionary;
-    location    "system";
-    object      controlDict;
+    location    "constant";
+    object      solverOptions;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     laminarSolverUnsteady;
+Kinetics
+{
+	folder	   		"../../../../../../PreProcessing/GRI30noNOX/kinetics-GRI30noNOX";
+	inertSpecies 		N2;
+	ODESolver		SIBS;
+}
 
-startFrom       latestTime;
-
-startTime       0;
-
-stopAt          endTime;
-
-endTime         0.2;
-
-deltaT          1e-6;
-
-writeControl    adjustableRunTime;
-
-writeInterval   0.01;
-
-purgeWrite      0;
-
-writeFormat     ascii;
-
-writePrecision  6;
-
-writeCompression off;
-
-timeFormat      general;
-
-timePrecision   6;
-
-runTimeModifiable true;
-
-adjustTimeStep  yes;
-
-maxCo           0.2;
-
+Spark
+{
+	spark 		off;
+	position    	(0.01 0 0);
+	time		0.;
+	temperature 	2200;
+	duration 	0.05;
+	diameter 	2e-3;
+}
 
 // ************************************************************************* //
