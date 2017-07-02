@@ -29,3 +29,7 @@ cd ..
 cd POLIMI_H2_NOX_1412
 OpenSMOKEpp_CHEMKIN_PreProcessor
 cd ..
+
+cd POLIMI_CH4_Pyrolysis
+OpenSMOKEpp_CHEMKIN_PreProcessor
+cd ..
