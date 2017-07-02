@@ -1,7 +1,7 @@
 # OpenFOAMTrainingCombustion
 **OpenFOAM Training: Combustion with OpenSMOKE++ (3-5 July 2017, Brussels)**
 
-This repository contains the material (source code, kinetic mechanisms, documentation) adopted during the OpenFOAM training session on combustion, scheduled for **Tuesday, 4 July: Use of external libraries for chemistry - Getting started with OpenSMOKE++**
+This repository contains the material (source code, kinetic mechanisms, documentation) adopted during the OpenFOAM training session on combustion, scheduled for **Monday, 3 July: Use of external libraries for chemistry - Getting started with OpenSMOKE++**
 
 It is important that you read carefully the notes and instructions reported below, before the beginning of the training.  
 If you already successfully configured your environment according to the instructions reported in the [OpenFOAMTrainingCombustionTest](https://github.com/acuoci/OpenFOAMTrainingCombustionTest) repository, you can skip what is reported in the following.
@@ -52,7 +52,7 @@ After compilation and installation, set the environment variable pointing at the
 In order to check if the environment is correctly configured, we compile and run a simple application based on OpenSMOKE++ and OpenFOAM.
 1. Go to the `Training/TestEnvironment` folder
 2. Compile the source code by typing: `wmake`
-3. If compilation succeeded, run the solver by typing: `environmentTest`  
+3. If compilation succeeded, run the solver by typing: `testEnvironment`  
 
 If everything was done properly, you should have the following output on the screen:
 ```
@@ -70,4 +70,4 @@ Selecting ODE solver seulex
 9.000000e-06
 ```
 
-If you have any questions, please email me at alberto.cuoci(at)gmail.com (Subject: *OpenFOAMTrainingCombustionTest Issues*)
+If you have any questions, please email me at alberto.cuoci(at)gmail.com (Subject: *OpenFOAMTrainingCombustion Issues*)
