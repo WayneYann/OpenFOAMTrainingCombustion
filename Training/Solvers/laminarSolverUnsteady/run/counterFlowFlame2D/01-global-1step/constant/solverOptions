@@ -1,0 +1,35 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.2;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      solverOptions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+Kinetics
+{
+	folder	   		"../../../../../../PreProcessing/Global_CH4_1step/kinetics-Global_CH4_1step";
+	inertSpecies 		N2;
+	ODESolver		SIBS;
+}
+
+Spark
+{
+	spark 		on;
+	position    	(0.01 0 0);
+	time		0.;
+	temperature 	2200;
+	duration 	0.05;
+	diameter 	2e-3;
+}
+
+// ************************************************************************* //
